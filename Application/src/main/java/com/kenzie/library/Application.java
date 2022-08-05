@@ -3,24 +3,33 @@ package com.kenzie.library;
 //import dependencies
 import com.kenzie.library.book.service.BookRequestService;
 import com.kenzie.library.logger.service.Logger;
+import com.kenzie.library.model.LibraryBook;
+
 import java.util.ArrayList;
 
 
 
 public class Application {
+    public static LibraryBook convertResponseToLibraryBook(String response){
+        LibraryBook responseLB = new LibraryBook();
+        responseLB.setBookInfo(response);
+        return responseLB;
+    }
 
-    //TODO: Remove comments and complete method to convert a single response string to LibraryBook
-//    public static LibraryBook convertResponseToLibraryBook(String response){
-//
-//    }
 
-    //TODO: Remove comments and complete method to return ArrayList of LibraryBook
-//    public static ArrayList<LibraryBook> returnBookList(String response1,
-//                                                        String response2,
-//                                                        String response3,
-//                                                        String response4,
-//                                                        String response5) {
-//    }
+    public static ArrayList<LibraryBook> returnBookList(String response1,
+                                                        String response2,
+                                                        String response3,
+                                                        String response4,
+                                                        String response5) {
+        ArrayList<LibraryBook> libraryBookArrayList = new ArrayList<LibraryBook>();
+        libraryBookArrayList.add(convertResponseToLibraryBook(response1));
+        libraryBookArrayList.add(convertResponseToLibraryBook(response2));
+        libraryBookArrayList.add(convertResponseToLibraryBook(response3));
+        libraryBookArrayList.add(convertResponseToLibraryBook(response4));
+        libraryBookArrayList.add(convertResponseToLibraryBook(response5));
+        return libraryBookArrayList;
+    }
 
     public static void main(String[] args) {
         //Use these constant values as input
@@ -52,6 +61,31 @@ public class Application {
             //6. User Logger to log: "Process complete"
             //7. Unit Test your code with LibraryBookTest.java and ApplicationTest.java
 
+            //use logger to log
+            Logger singleLogger = Logger.getInstance();
+            singleLogger.logMessage("Process starting");
+
+            //using BookRequestService.sendGetRequest() and log each string
+            String response1 = BookRequestService.sendGetRequest(BOOK_1);
+            singleLogger.logMessage(response1);
+
+            String response2 = BookRequestService.sendGetRequest(BOOK_2);
+            singleLogger.logMessage(response2);
+
+            String response3 = BookRequestService.sendGetRequest(BOOK_3);
+            singleLogger.logMessage(response3);
+
+            String response4 = BookRequestService.sendGetRequest(BOOK_4);
+            singleLogger.logMessage(response4);
+
+            String response5 = BookRequestService.sendGetRequest(BOOK_5);
+            singleLogger.logMessage(response5);
+
+            //call returnBookList() and print
+            System.out.println(returnBookList(response1, response2, response3, response4, response5));
+
+            //use Logger to log
+            singleLogger.logMessage("Process complete");
     }
         catch (Exception e){
             System.out.println("Error occurred: unable to request book info");
